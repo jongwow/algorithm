@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <stdlib.h>
 using namespace std;
 bool friends[10][10];
@@ -54,7 +54,7 @@ countPairing( taken ) : 짝이 있는지 확인하는 배열을 인자로 받아서 넘겨줌. 짝을 �
 		그 짝없는 학생과 친구학생을 짝을 찢는다.
 		//위의 부분은 백트레킹 부분. 공부했는데도 헷갈리는 구만.
 	짝지음 숫자를 반환한다.
-*/
+*//*
 int main() {
 	freopen("input.txt", "r", stdin);
 	int tc;
@@ -75,4 +75,4 @@ int main() {
 	}
 	
 	return 0;
-}
+}*/
