@@ -7,7 +7,7 @@ int main() {
 	for (long i = 0; i < 6; i++) {
 		cin >> a[i];
 	}
-	long c1=51, c2=101, c3=151;//1¸é, 2¸é, 3¸é
+	long c1=51, c2=101, c3=151;//1ë©´, 2ë©´, 3ë©´
 	for (long i = 0; i < 6; i++) {
 		if (c1 > a[i])
 			c1 = a[i];

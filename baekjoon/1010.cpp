@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 int DP[31][31];
-//°ãÃÄÁú ¼ö ¾ø´Ù´Â Á¶°Ç!!!
+//ê²¹ì³ì§ˆ ìˆ˜ ì—†ë‹¤ëŠ” ì¡°ê±´!!!
 int bridge(int n, int m){
 	if (n == 1)
 		return m;

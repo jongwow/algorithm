@@ -5,16 +5,16 @@ using namespace std;
 int dp[301][2];
 int Stairs[301];
 int stairsHeight;
-int stepping(int st, int status) { //status == 0 ÀÌÀü¿¡ ¾È¹âÀ½ ==1 ¹âÀ½
-	if (st == stairsHeight-1) //¸¶Áö¸· °è´Ü¿¡ µµ´ŞÇÏ¸é
+int stepping(int st, int status) { //status == 0 ì´ì „ì— ì•ˆë°ŸìŒ ==1 ë°ŸìŒ
+	if (st == stairsHeight-1) //ë§ˆì§€ë§‰ ê³„ë‹¨ì— ë„ë‹¬í•˜ë©´
 		return Stairs[st];
-	if (st > stairsHeight-1) //¸¶Áö¸·À» ³Ñ¾î°¡¸é 
-		return -INF; //¾ÆÁÖ Å« À½ÀÇ Á¤¼ö¸¦ ¹İÈ¯ÇØ¼­ Á¤´äÀÌ ¾ÈµÇ°Ô ÇÔ.
-	if (dp[st][status]!=0) //ÀÌ¹Ì °è»êÇÑ ºÎºĞ¹®Á¦ÀÏ °æ¿ì
-		return dp[st][status]; //dp¸¦ ¹İÈ¯.
-	if (status == 0) //ÀÌÀü¿¡ ¹âÁö ¾Ê¾ÒÀ¸¸é 2°è´Ü or 1°è´Ü µÑ´Ù °¡´É
+	if (st > stairsHeight-1) //ë§ˆì§€ë§‰ì„ ë„˜ì–´ê°€ë©´ 
+		return -INF; //ì•„ì£¼ í° ìŒì˜ ì •ìˆ˜ë¥¼ ë°˜í™˜í•´ì„œ ì •ë‹µì´ ì•ˆë˜ê²Œ í•¨.
+	if (dp[st][status]!=0) //ì´ë¯¸ ê³„ì‚°í•œ ë¶€ë¶„ë¬¸ì œì¼ ê²½ìš°
+		return dp[st][status]; //dpë¥¼ ë°˜í™˜.
+	if (status == 0) //ì´ì „ì— ë°Ÿì§€ ì•Šì•˜ìœ¼ë©´ 2ê³„ë‹¨ or 1ê³„ë‹¨ ë‘˜ë‹¤ ê°€ëŠ¥
 		dp[st][status] = max(stepping(st + 1, 1), stepping(st + 2, 0)) + Stairs[st];
-	else //ÀÌÀü¿¡ ¹â¾ÒÀ¸¸é 2°è´Ü¸¸ °¡´É
+	else //ì´ì „ì— ë°Ÿì•˜ìœ¼ë©´ 2ê³„ë‹¨ë§Œ ê°€ëŠ¥
 		dp[st][status] = stepping(st + 2, 0)+Stairs[st];
 	return dp[st][status];
 }
@@ -23,8 +23,8 @@ int main() {
 	cin >> stairsHeight;
 	for (int i = 0; i < stairsHeight; i++)
 		cin >> Stairs[i];
-	//Ã³À½¿¡ 1°è´ÜÇÏ´À³Ä 2°è´ÜÇÏ´À³Ä´Â stepping¿¡¼­ ±¸ºĞ ¸øÇÏ¹Ç·Î
-	//Á÷Á¢ max·Î ÇØÁÜ.
+	//ì²˜ìŒì— 1ê³„ë‹¨í•˜ëŠëƒ 2ê³„ë‹¨í•˜ëŠëƒëŠ” steppingì—ì„œ êµ¬ë¶„ ëª»í•˜ë¯€ë¡œ
+	//ì§ì ‘ maxë¡œ í•´ì¤Œ.
 	cout << max(stepping(0, 0),stepping(1,0)) << endl;
 	return 0;
 }

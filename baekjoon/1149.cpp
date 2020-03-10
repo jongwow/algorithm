@@ -78,13 +78,13 @@ int main() {
 
 
 /*
-	solve(int color, int N) : N-1¹øÂ°¿¡¼­ color¸¦ ½èÀ» ¶§, N¹øÂ° ÃÖ¼Ò ºñ¿ëÀ» ¸®ÅÏ
-	°¡Àå ³·Àº ºñ¿ëÀ» ¸®ÅÏÇØÁÖ´Â°Ô Æ÷ÀÎÆ®
-	min(Green, Blue, Red)À» ÇØÁÖµÅ ±× Àü ÁýÀÇ »ö¿¡ µû¶ó ÇöÀç ÁýÀ» ¼±ÅÃÇÏ´Â µ¥¿¡ Á¦ÇÑÀÌ ÀÖÀ½.
+	solve(int color, int N) : N-1ë²ˆì§¸ì—ì„œ colorë¥¼ ì¼ì„ ë•Œ, Në²ˆì§¸ ìµœì†Œ ë¹„ìš©ì„ ë¦¬í„´
+	ê°€ìž¥ ë‚®ì€ ë¹„ìš©ì„ ë¦¬í„´í•´ì£¼ëŠ”ê²Œ í¬ì¸íŠ¸
+	min(Green, Blue, Red)ì„ í•´ì£¼ë¼ ê·¸ ì „ ì§‘ì˜ ìƒ‰ì— ë”°ë¼ í˜„ìž¬ ì§‘ì„ ì„ íƒí•˜ëŠ” ë°ì— ì œí•œì´ ìžˆìŒ.
 
-	if(N == N) : ¸¶Áö¸· ÁýÀÌ¸é ±×³É return
-	¾Æ´Ò °æ¿ì¿¡ dp ºÎºÐ¹®Á¦ÀÎÁö È®ÀÎ.
-	¾Æ´Ò °æ¿ì¿¡ Á÷Á¢ min return
+	if(N == N) : ë§ˆì§€ë§‰ ì§‘ì´ë©´ ê·¸ëƒ¥ return
+	ì•„ë‹ ê²½ìš°ì— dp ë¶€ë¶„ë¬¸ì œì¸ì§€ í™•ì¸.
+	ì•„ë‹ ê²½ìš°ì— ì§ì ‘ min return
 
 
 */
