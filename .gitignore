@@ -1,0 +1,9 @@
+# Debugs
+Debug
+
+# VS config files
+ConsoleApplication3*
+
+# Clion Setting
+cmake-build-debug
+CMakeLists.txt
