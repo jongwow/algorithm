@@ -33,30 +33,42 @@ string str;
 
 // i는 wildcard 의 색인
 // j는 string 의 색인
-bool myCompare(int i, int j) {
-    if (i > wild.size() || j > str.size())
-        return false;
-    if (i == wild.size()) {
-        return j == str.size();
-    }
-    if (j == str.size()) {
-        for(int k=i; k<wild.size(); k++){
-            if(wild[k] != '*')
-                return false;
+bool match(const string &w, const string &s) {
+    int pos = 0;
+    while (pos < s.size() && pos < w.size() && (w[pos] == '?' || w[pos] == s[pos]))
+        ++pos;
+    if (pos == w.size())
+        return pos == s.size();
+    if (w[pos] == '*')
+        for (int sk = 0; pos + sk <= s.size(); sk++) {
+            if (match(w.substr(pos + 1), s.substr(pos + sk)))
+                return true;
         }
-        return true;
-    }
-    // 위 세개를 그냥 i == wild.size() && j == str.size() 이렇게 해도 될까
-    if (wild[i] == '*' || wild[i] == '?') {
-        return wild[i] == '?' ? myCompare(i + 1, j + 1) : myCompare(i + 1, j + 1) || myCompare(i, j + 1);
-    } else if (wild[i] == str[j]) {
-        return myCompare(i + 1, j + 1);
-    }
     return false;
 }
 
+int cache[101][101];
+string W, S;
+
+bool matchMemo(int w, int s) {
+    int &ret = cache[w][s];
+    if (ret != -1) return ret;
+
+    while (s < S.size() && w < W.size() && (W[w] == '?' || W[w] == S[s])) {
+        ++w;
+        ++s;
+    }
+    if (w == W.size()) return ret = (s == S.size());
+    if (W[w] == '*')
+        for (int sk = 0; s + sk <= S.size(); ++sk) {
+            if (matchMemo(w + 1, s + sk))
+                return ret = 1;
+        }
+    return ret = 0;
+}
+
 int main() {
-    freopen("../algospot/algospotInput.txt", "r",stdin);
+    freopen("../algospot/algospotInput.txt", "r", stdin);
     int tc;
     cin >> tc;
     while (tc-- > 0) {
