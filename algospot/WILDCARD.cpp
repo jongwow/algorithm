@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include <string>
-#include <vector>
+#include <stdio.h>
 /**
  * 1. 문제를 읽고 이해한다.
 2. 문제를 익숙한 용어로 재정의한다.
@@ -40,7 +40,11 @@ bool myCompare(int i, int j) {
         return j == str.size();
     }
     if (j == str.size()) {
-        return myCompare(i + 1, j);
+        for(int k=i; k<wild.size(); k++){
+            if(wild[k] != '*')
+                return false;
+        }
+        return true;
     }
     // 위 세개를 그냥 i == wild.size() && j == str.size() 이렇게 해도 될까
     if (wild[i] == '*' || wild[i] == '?') {
@@ -52,6 +56,7 @@ bool myCompare(int i, int j) {
 }
 
 int main() {
+    freopen("../algospot/algospotInput.txt", "r",stdin);
     int tc;
     cin >> tc;
     while (tc-- > 0) {
