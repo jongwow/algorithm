@@ -14,40 +14,44 @@ int aaa[4][3][2] = {{{0, 0}, {1, 0}, {1, -1}},
                     {{0, 0}, {0, 1}, {1, 0}},
                     {{0, 0}, {0, 1}, {1, 1}}};
 
-bool set(vector<vector<int>> &board, int y, int x, int shape, int delta) {
-    // 경계선 내부인지 확인
+bool putOn(vector<vector<int>> &board, int y, int x, int type, int delta) {
     bool res = true;
     for (int i = 0; i < 3; i++) {
-        int nextY = y + aaa[shape][i][0];
-        int nextX = x + aaa[shape][i][1];
-        if (0 > nextX || nextX >= board[0].size() || 0 > nextY || nextY >= board.size())
+        int nY = y + aaa[type][i][0];
+        int nX = x + aaa[type][i][1];
+        if (0 > nX || 0 > nY || board[0].size() <= nX || board.size() <= nY)
             res = false;
-        else if ((board[nextY][nextX] += delta) > 1)
+        else if ((board[nY][nX] += delta) > 1)
             res = false;
     }
     return res;
 }
 
-int cover(vector<vector<int>> &board) {
+int coverTile(vector<vector<int>> &board) {
+    // 가장 첫번쨰 왼쪽 위 빈 타일을 찾는 부분
     int y = -1;
     int x = -1;
-    for(int i=0; i<board.size(); i++){
-        for(int j=0; j<board[i].size(); j++)
-            if(board[i][j] == 0){
-                y = i;
-                x = j;
+    for (int h = 0; h < board.size(); h++) {
+        for (int w = 0; w < board[0].size(); w++) {
+            if (board[h][w] == 0) {
+                y = h;
+                x = w;
                 break;
             }
-        if(y != -1) break;
+        }
+        if (y != -1)
+            break;
     }
-    if(y == -1) return 1;
-    int ret= 0;
-    for(int type = 0; type<4; type++){
-        if(set(board, y, x, type, 1))
-            ret += cover(board);
-        set(board, y, x, type, -1);
+    //기저사례
+    if (y == -1) return 1;
+    int ret = 0;
+    for (int type = 0; type < 4; type++) {
+        if (putOn(board, y, x, type, 1))
+            ret += coverTile(board);
+        putOn(board, y, x, type, -1);
     }
     return ret;
+
 }
 
 int main() {
@@ -69,7 +73,7 @@ int main() {
             }
         }
 
-        cout << cover(board) << endl;
+        cout << coverTile(board) << endl;
 
     }
     return 0;
