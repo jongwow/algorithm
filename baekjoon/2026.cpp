@@ -10,29 +10,29 @@ void pushPairs(vector<int> pic, int picSize, int start, int depth) {
 	//depth escape condition
 	if (endFunc)
 		return;
-	if (depth == N || picSize == K) { //Å»ÃâÁ¶°Ç
+	if (depth == N || picSize == K) { //íƒˆì¶œì¡°ê±´
 		if (picSize == K) {
 			ans = pic;
 			endFunc = true;
 		}
 		return;
 	}
-	if (K > picSize + N - start) //°¡ÁöÄ¡±â. ³²Àº Ä£±¸ÀÇ ¼ıÀÚ·Î K¸¦ ¸ø¸ÂÃâ ¶§.
+	if (K > picSize + N - start) //ê°€ì§€ì¹˜ê¸°. ë‚¨ì€ ì¹œêµ¬ì˜ ìˆ«ìë¡œ Kë¥¼ ëª»ë§ì¶œ ë•Œ.
 		return;
 	for (int next = start; next < N; next++) {
-		if (numFriends[next] < K - 1) //Ä£±¸[next]ÀÇ Ä£±¸¼ö°¡ Kº¸´Ù ÀÛÀ¸¸é ¼ÒÇ³ ÀÎ¿ø ¸øÃ¤¿ò.
+		if (numFriends[next] < K - 1) //ì¹œêµ¬[next]ì˜ ì¹œêµ¬ìˆ˜ê°€ Kë³´ë‹¤ ì‘ìœ¼ë©´ ì†Œí’ ì¸ì› ëª»ì±„ì›€.
 			continue;
-		bool flag = true;//nextÄ£±¸°¡ ±âÁ¸ÀÇ Ä£±¸µé°ú ´Ù Ä£±¸°ü°èÀÎÁö È®ÀÎ.
+		bool flag = true;//nextì¹œêµ¬ê°€ ê¸°ì¡´ì˜ ì¹œêµ¬ë“¤ê³¼ ë‹¤ ì¹œêµ¬ê´€ê³„ì¸ì§€ í™•ì¸.
 		for (int prev = 0; prev < picSize; prev++) {
 			if (!friends[next][pic[prev]]) {
 				flag = false;
 				break;
 			}
 		}
-		if (flag) { //Ä£±¸¶ó¸é
-			pic.push_back(next); //next¸¦ ³Ö°í
-			pushPairs(pic, picSize + 1, next + 1, depth + 1); //°è»êÇÏ°í
-			pic.pop_back(); //next¸¦ »©°í
+		if (flag) { //ì¹œêµ¬ë¼ë©´
+			pic.push_back(next); //nextë¥¼ ë„£ê³ 
+			pushPairs(pic, picSize + 1, next + 1, depth + 1); //ê³„ì‚°í•˜ê³ 
+			pic.pop_back(); //nextë¥¼ ë¹¼ê³ 
 		}
 		else
 			continue;
