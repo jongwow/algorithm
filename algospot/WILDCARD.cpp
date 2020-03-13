@@ -68,7 +68,7 @@ bool matchMemo(int w, int s) {
 }
 
 int main() {
-    freopen("../algospot/algospotInput.txt", "r", stdin);
+    freopen("../input/WILDCARD.txt", "r", stdin);
     int tc;
     cin >> tc;
     while (tc-- > 0) {
