@@ -2,8 +2,8 @@
 // Created by Jongwoo on 2020-03-11.
 //
 #include <iostream>
-#include <string>
 #include <stdio.h>
+#include <cstring>
 /**
  * 1. 문제를 읽고 이해한다.
 2. 문제를 익숙한 용어로 재정의한다.
@@ -67,18 +67,36 @@ bool matchMemo(int w, int s) {
     return ret = 0;
 }
 
+bool myMatchMemo(int w, int s) {
+    int &ret = cache[w][s];
+    if (ret != -1) return ret;
+    while (s < S.size() && w < W.size() && (W[w] == '?' || W[w] == S[s])) {
+        w++;
+        s++;
+    }
+    if (w == W.size()) return ret = (s == S.size());
+    if (W[w] == '*')
+        for (int skip = 0; s + skip <= S.size(); skip++) {
+            if (myMatchMemo(w + 1, s + skip))
+                return ret = 1;
+        }
+    return ret = 0;
+}
+
 int main() {
     freopen("../input/WILDCARD.txt", "r", stdin);
     int tc;
+    int strN;
     cin >> tc;
     while (tc-- > 0) {
-        cin >> wild;
-        int strN;
+        cin >> W;
         cin >> strN;
         for (int i = 0; i < strN; i++) {
-            cin >> str;
-            if (myCompare(0, 0))
-                cout << str << endl;
+            memset(cache, -1, sizeof(cache));
+            cin >> S;
+            if (myMatchMemo(0, 0)) {
+                cout << S << endl;
+            }
         }
     }
 }
