@@ -61,6 +61,30 @@ int mySolve(vector<int> &f, int l, int r) {
     return ret;
 }
 
+int solve2(const vector<int> &f, int left, int right) {
+    if (left == right) return f[left];
+    int mid = (right + left) / 2;
+    int lo = mid;
+    int hi = mid + 1;
+    int ret = max(solve2(f, left, lo), solve2(f, hi, right));
+
+    int height = min(f[lo], f[hi]);
+    int width = 2;
+    ret = max(ret, height * width);
+    while (left < lo || hi < right) {
+        if (hi < right && (left == lo || f[lo - 1] < f[hi + 1])) {
+            hi++;
+            height = min(height, f[hi]);
+        } else {
+            lo--;
+            height = min(height, f[lo]);
+        }
+        width = hi - lo + 1;
+        ret = max(ret, height * width);
+    }
+    return ret;
+}
+
 int main() {
     freopen("../algospot/algospotInput.txt", "r", stdin);
     int tc;
@@ -74,7 +98,7 @@ int main() {
             cin >> tmp;
             fence.push_back(tmp);
         }
-        cout << mySolve(fence, 0, n - 1) << endl;
+        cout << solve2(fence, 0, n-1) << endl;
 //        cout << solve(fence) << endl;
     }
     return 0;
