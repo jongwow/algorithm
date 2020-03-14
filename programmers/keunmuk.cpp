@@ -44,6 +44,8 @@
 #include <vector>
 #include <iostream>
 
+#define INF 987654321
+
 using namespace std;
 
 int flood(vector<int> &arr, int idx, int scope);
@@ -61,11 +63,11 @@ int solve(vector<int> &arr) {
         }
     }
     cout << "FINDONE:" << idx << endl;
-    if (idx - (K-1) < 0)
+    if (idx - (K - 1) < 0)
         ret += flood(arr, idx, -idx);
     else
         ret += flood(arr, idx, -(K - 1));
-    if (idx + (K-1) > N-1)
+    if (idx + (K - 1) > N - 1)
         ret += flood(arr, idx, N - idx);
     else
         ret += flood(arr, idx, (K - 1));
@@ -83,14 +85,14 @@ int solve(vector<int> &arr) {
  *      return 1+flood(arr, idx+=k, newK)*/
 int flood(vector<int> &arr, int idx, int scope) {
     cout << "flood(" << idx << ", " << scope << ")" << endl;
-    if(idx < 0 || idx > N-1) return 0;
-    if(scope == 0) {
+    if (idx < 0 || idx > N - 1) return 0;
+    if (scope == 0) {
         arr[idx] = 1;
         return 1;
     }
     int d = scope > 0 ? 1 : -1;
     int ret = 1;
-    if (scope * d < K-1) {
+    if (scope * d < K - 1) {
         for (int i = idx; i != idx + scope + d; i += d) {
             arr[i] = 1;
         }
@@ -101,12 +103,12 @@ int flood(vector<int> &arr, int idx, int scope) {
         }
         idx = idx + scope;
         if (d < 0) {
-            if (idx - (K-1) < 0)
+            if (idx - (K - 1) < 0)
                 ret += flood(arr, idx, -idx);
             else
                 ret += flood(arr, idx, -(K - 1));
         } else {
-            if (idx + (K-1) > N-1)
+            if (idx + (K - 1) > N - 1)
                 ret += flood(arr, idx, N - idx);
             else
                 ret += flood(arr, idx, (K - 1));
@@ -114,6 +116,33 @@ int flood(vector<int> &arr, int idx, int scope) {
         return ret;
     }
 }
+
+// solution(배열, 시작점, 끝점):
+// 시작점부터 끝점까지 돌면서 만약에 1이 아닌 것이 있다면 누르고 ret +1
+// [시작점, 끝점)
+// 왼, 오 중 빈 곳에 넣어주기.
+int solution(vector<int> &arr, int start, int end) {
+    cout << "sol(" << start << ", " << end << ")" << endl;
+    if (start == end) {
+        arr[start] = 1;
+        return 1;
+    }
+    int ret = 0;
+    int d = (end - start) > 0 ? 1 : -1;
+    for (int i = start; i != end && i >= 0 && i < N-1; i += d) {
+        if (arr[i] != 1) {
+            arr[i] = 1;
+            ret = 1;
+        }
+    }
+    if (ret == 0) {
+        return ret;
+    } else {
+        ret += solution(arr, end, end + K * d);
+        return ret;
+    }
+}
+
 /*
  * 37 4
 31 36 20 30 1 9 6 13 3 29 11 25 7 8 2 24 34 18 26 15 23 28 37 19 21 4 32 14 16 10 12 27 22 35 5 17 33
@@ -123,15 +152,24 @@ int main() {
     cin >> N >> K;
     vector<int> nums;
     int t;
+    int idx = 0;
     for (int i = 0; i < N; i++) {
         cin >> t;
+        if (t == 1)
+            idx = i;
         nums.push_back(t);
     }
-    cout << solve(nums) << endl;
-    for (int i = 0; i < N; i++) {
-        cout << nums[i] << " ";
+    vector<int> inputArray;
+    int res = INF;
+    for (int j = idx - (K - 1); j <= idx + K - 1; j++) {
+        inputArray.clear();
+        inputArray.assign(nums.begin(), nums.end());
+        res = min(res, solution(inputArray, j, j + K) + solution(inputArray, j, j - K));
+        cout << "RES:" << res << endl;
+        for (int i = 0; i < N; i++) {
+            cout << inputArray[i] << " ";
+        }
+        cout << endl;
     }
-    cout << endl;
-
     return 0;
 }
