@@ -8,3 +8,7 @@ ConsoleApplication3*
 cmake-build-debug
 .idea
 CMakeLists.txt
+
+# Compiled files
+a.out
+./**/a.out
