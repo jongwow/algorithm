@@ -11,4 +11,5 @@ CMakeLists.txt
 
 # Compiled files
 a.out
+**/a.out.*
 ./**/a.out
