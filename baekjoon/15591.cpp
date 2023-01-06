@@ -1,16 +1,17 @@
 #include <iostream>
 #include <queue>
 #include <cstdio>
+#include <cmath>
 #include <algorithm>
 #define ll long long
 #define INF 2000000001
 
 using namespace std;
 
-ll path[5001][5001];
-ll cache[5001][5001];
-
-int visited[5001];
+// ll path[5001][5001];
+// ll cache[5001][5001];
+int cache[5001][5001];
+int visited[5001][5001];
 int path[5001][5001];
 int ks[5001];
 int videoIndexes[5001];
@@ -49,51 +50,60 @@ int main()
         videoIndexes[i] = videoIndex - 1;
     }
     //=== start
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < Q; i++)
     {
-        int root = i;
+        int root = videoIndexes[i];
         queue<int> q;
         q.push(root);
-        visited[root] = true;
+        visited[root][root] = true;
         while (!q.empty())
         {
             int current = q.front();
             q.pop();
-            vector<int> adj;
-            // adjacent nodes
-            for (int near = 0; near < N; near++)
-            {
-                if (path[current][near] != 0 && !visited[near])
-                {
-                    adj.push_back(near);
-                }
-            }
-            for (int adjIndex = 0; adjIndex < adj.size(); adjIndex++)
-            {
-                cache[root][adj[adjIndex]] = min(cache[root][current])]]
-
-                // cache[current][adj[j]] = min(cache[current][adj[j]], path[adj[j]][current]);
-            }
-
             for (int j = 0; j < N; j++)
             {
-                if (!visited[j])
+                if (path[current][j] != 0 && !visited[root][j])
                 {
-                    if (path[current][j] != 0)
-                    {
-                        cache[current][j]
-                    }
+                    visited[root][j] = true;
+                    cache[root][j] = min(cache[root][current], path[current][j]);
+                    cache[j][root] = min(cache[root][current], path[current][j]);
+                    q.push(j);
                 }
             }
         }
     }
+
+    for (int i = 0; i < Q; i++)
+    {
+        int k = ks[i];
+        int videoIndex = videoIndexes[i];
+        int count = -1;
+        for (int j = 0; j < N; j++)
+        {
+            if (cache[videoIndex][j] >= k)
+            {
+                count++;
+            }
+        }
+        cout << count << endl;
+    }
+
     //=== end
+
     cout << "map" << endl;
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
         {
-            cout << path[i][j] << " ";
+            if (cache[i][j] != INF)
+            {
+                cout << cache[i][j] << " ";
+            }
+            else
+            {
+                cout << "X"
+                     << " ";
+            }
         }
         cout << endl;
     }
