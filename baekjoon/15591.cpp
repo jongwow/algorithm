@@ -32,19 +32,50 @@ int main(){
         videoIndexes[i] = videoIndex;
     }
     //=== start
-    queue<Vertex> bigQue;
+    queue<int> bigQue;
     for(int i = 0; i < Q;  i++){
-        bigQue.push((Vertex){
-            videoIndex: videoIndexes[i],
-            leftK: ks[i]
-        });
+        bigQue.push(videoIndexes[i]);
     }
-	while (!bigQue.empty()) {
-		Vertex cur = bigQue.front();
-		bigQue.pop();
+   while (!bigQue.empty()) {
+        int cur = bigQue.front();
+        bigQue.pop();
+        queue<int> smallQueue;
         for(int i = 0; i < N; i++){
-            if(map[cur.videoIndex][])
+            if(map[cur][i] != 0){
+                smallQueue.push(i);
+            }
         }
+        //--
+        while(!smallQueue.empty()){
+            int adjOne = smallQueue.front();
+            smallQueue.pop();
+            if (cache[cur][adjOne] == 0){
+                cache[cur][adjOne] = cache[0][cur] + map[cur][adjOne];
+            }
+        }
+    } 
+    // for(int startIndex = 0; startIndex<Q; startIndex++){
+    //     int start = videoIndexes[startIndex];
+    //  	while (!bigQue.empty()) {
+    //         int cur = bigQue.front();
+    //         bigQue.pop();
+    //         queue<int> smallQueue;
+    //         for(int i = 0; i < N; i++){
+    //             if(map[start][i] != 0){
+    //               smallQueue.push(i);
+    //             }
+    //         }
+    //         //--
+    //         while(!smallQueue.empty()){
+    //             int adjOne = smallQueue.front();
+    //             smallQueue.pop();
+    //             if (cache[start][adjOne] == 0){
+    //                 cache[start][adjOne] = cache[start][cur.videoIndex] + map[cur.videoIndex][adjOne];
+    //             }
+    //         }
+    //     }
+    // }
+
     }
 
     //=== end
