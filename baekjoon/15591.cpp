@@ -3,37 +3,24 @@
 #include <cstdio>
 #include <cmath>
 #include <algorithm>
-#define ll long long
 #define INF 2000000001
 
 using namespace std;
 
-// ll path[5001][5001];
-// ll cache[5001][5001];
 int cache[5001][5001];
 int visited[5001][5001];
 int path[5001][5001];
 int ks[5001];
 int videoIndexes[5001];
 vector<int> adjVectors[5001];
-struct VERTEX
-{
-    int currentVideoNumber;
-    vector<int> adjacentVideoNumbers;
-};
+vector<int> results[5001];
+
 int main()
 {
     freopen("./15591.txt", "r", stdin);
     int N, Q;
     cin >> N >> Q;
 
-    // for (int i = 0; i < N; i++)
-    // {
-    //     for (int j = 0; j < N; j++)
-    //     {
-    //         cache[i][j] = INF;
-    //     }
-    // }
     for (int i = 0; i < N - 1; i++)
     {
         int start, end, value;
@@ -84,10 +71,10 @@ int main()
     {
         int k = ks[i];
         int videoIndex = videoIndexes[i];
-        int count = -1;
+        int count = 0;
         for (int j = 0; j < N; j++)
         {
-            if (cache[videoIndex][j] >= k)
+            if (videoIndex != j && cache[videoIndex][j] >= k)
             {
                 count++;
             }
@@ -102,15 +89,7 @@ int main()
     {
         for (int j = 0; j < N; j++)
         {
-            // if (cache[i][j] != INF)
-            // {
             cout << cache[i][j] << " ";
-            // }
-            // else
-            // {
-            // cout << "X"
-            //  << " ";
-            // }
         }
         cout << endl;
     }
