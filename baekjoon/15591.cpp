@@ -7,29 +7,30 @@
 
 using namespace std;
 
-ll map[5001][5001];
+ll path[5001][5001];
+ll cache[5001][5001];
+
+int visited[5001];
 int path[5001][5001];
 int ks[5001];
 int videoIndexes[5001];
 
-struct Vertex{
-    int videoIndex, leftK;
-};
 
 int main(){
     freopen("./15591.txt", "r", stdin);
     int N, Q;
     cin >> N >> Q;
+    
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
-            map[i][j] = INF;
+            cache[i][j] = INF;
         }
     }
     for(int i = 0; i < N-1; i++){
         int start, end, value;
         cin >> start >> end >> value;
-        map[start-1][end-1] = value;
-        map[end-1][start-1] = value;
+        path[start-1][end-1] = value;
+        path[end-1][start-1] = value;
     }
     int maxK = 0;
     
@@ -44,31 +45,34 @@ int main(){
     }
     //=== start
     for(int i = 0; i < N; i++){
-        map[i][i] = 0;
-    }
-    for(int k = 0; k < N; k++){
-        for(int i = 0; i < N; i++){
-            for (int j = 0; j < N; j++){
-                map[i][j] = min(map[i][j], map[i][k] + map[k][j]);
-                path[i][j] = k;
+        int root = i;
+        queue<int> q;
+        q.push(root);
+        visited[root] = true;
+        while(!q.empty()){
+            int current = q.front();
+            q.pop();
+            vector<int> adj;
+            for(int near = 0; near < N; near++){
+                if(path[])
+                adj.push_back(near)
+            }
+
+            for(int j = 0; j < N; j++){
+                if(!visited[j]){
+                    if(path[current][j] != 0){
+                        cache[current][j]
+                    }
+                }
+                
             }
         }
     }
-
-    // for(int i = 0; i< Q; i++){
-    //     int count = 0;
-    //     for(int j = 0; j < N-1; j++){
-    //         if( (map[videoIndexes[i]][j] != 0) && map[videoIndexes[i]][j] < ks[i]){
-    //             count++;
-    //         }
-    //     }
-    //     cout << count << endl;
-    // }
     //=== end
     cout << "map" << endl;
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
-            cout << map[i][j] << " ";
+            cout << path[i][j] << " ";
         }
         cout << endl;
     }

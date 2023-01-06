@@ -1,5 +1,6 @@
 {
     "code-runner.executorMap": {
+    
         "javascript": "node",
         "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
         "c": "cd $dir && gcc -g $fileName -o a.out && $dir/a.out",
@@ -53,6 +54,15 @@
         "sml": "cd $dir && sml $fileName"
     },
     "files.associations": {
-        "iostream": "cpp"
-    }
+        "iostream": "cpp",
+        "__split_buffer": "cpp",
+        "deque": "cpp",
+        "queue": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "vector": "cpp",
+        "type_traits": "cpp",
+        "version": "cpp"
+    },
+    "code-runner.runInTerminal": true
 }
