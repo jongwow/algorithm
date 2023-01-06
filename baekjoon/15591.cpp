@@ -15,7 +15,11 @@ int visited[5001][5001];
 int path[5001][5001];
 int ks[5001];
 int videoIndexes[5001];
-
+struct VERTEX
+{
+    int currentVideoNumber;
+    vector<int> adjacentVideoNumbers;
+};
 int main()
 {
     freopen("./15591.txt", "r", stdin);
@@ -67,7 +71,10 @@ int main()
                     visited[root][j] = true;
                     cache[root][j] = min(cache[root][current], path[current][j]);
                     cache[j][root] = min(cache[root][current], path[current][j]);
-                    q.push(j);
+                    if (cache[root][j] < ks[i])
+                    {
+                        q.push(j);
+                    }
                 }
             }
         }
