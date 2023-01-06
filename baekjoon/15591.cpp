@@ -15,6 +15,7 @@ int visited[5001][5001];
 int path[5001][5001];
 int ks[5001];
 int videoIndexes[5001];
+vector<int> adjVectors[5001];
 struct VERTEX
 {
     int currentVideoNumber;
@@ -26,31 +27,28 @@ int main()
     int N, Q;
     cin >> N >> Q;
 
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            cache[i][j] = INF;
-        }
-    }
+    // for (int i = 0; i < N; i++)
+    // {
+    //     for (int j = 0; j < N; j++)
+    //     {
+    //         cache[i][j] = INF;
+    //     }
+    // }
     for (int i = 0; i < N - 1; i++)
     {
         int start, end, value;
         cin >> start >> end >> value;
         path[start - 1][end - 1] = value;
+        adjVectors[start - 1].push_back(end - 1);
+        adjVectors[end - 1].push_back(start - 1);
         path[end - 1][start - 1] = value;
     }
-    int maxK = 0;
 
     for (int i = 0; i < Q; i++)
     {
         int k, videoIndex;
         cin >> k >> videoIndex;
         ks[i] = k;
-        if (maxK < k)
-        {
-            maxK = k;
-        }
         videoIndexes[i] = videoIndex - 1;
     }
     //=== start
@@ -64,17 +62,19 @@ int main()
         {
             int current = q.front();
             q.pop();
-            for (int j = 0; j < N; j++)
+
+            for (int j = 0; j < adjVectors[current].size(); j++)
             {
-                if (path[current][j] != 0 && !visited[root][j])
+                int next = adjVectors[current][j];
+                if (path[current][next] != 0 && !visited[root][next])
                 {
-                    visited[root][j] = true;
-                    cache[root][j] = min(cache[root][current], path[current][j]);
-                    cache[j][root] = min(cache[root][current], path[current][j]);
-                    if (cache[root][j] < ks[i])
+                    visited[root][next] = true;
+                    if (cache[root][current] == 0)
                     {
-                        q.push(j);
+                        cache[root][current] = INF;
                     }
+                    cache[root][next] = min(cache[root][current], path[current][next]);
+                    q.push(next);
                 }
             }
         }
@@ -102,15 +102,15 @@ int main()
     {
         for (int j = 0; j < N; j++)
         {
-            if (cache[i][j] != INF)
-            {
-                cout << cache[i][j] << " ";
-            }
-            else
-            {
-                cout << "X"
-                     << " ";
-            }
+            // if (cache[i][j] != INF)
+            // {
+            cout << cache[i][j] << " ";
+            // }
+            // else
+            // {
+            // cout << "X"
+            //  << " ";
+            // }
         }
         cout << endl;
     }
