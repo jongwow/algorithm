@@ -4,7 +4,7 @@ const COLOR = {
     WHITE: 0,
     WALL: 4,
 };
-const MAX_COUNT = 3;
+const MAX_COUNT = 1000;
 
 class Pos {
     constructor(x, y, n){
@@ -85,7 +85,11 @@ class OldHorse{
     }
     Mount(bottom){
         this.movable = false;
-        bottom.nextHorse = this;
+        let belowHorse = bottom;
+        while(belowHorse.nextHorse){
+            belowHorse = belowHorse.nextHorse;
+        }
+        belowHorse.nextHorse = this;
     }
     _moveNextBlue(){
        this.dir.reverse();
@@ -175,7 +179,11 @@ function processInput(lines){
         const x = horses[i].pos.x;
         const y = horses[i].pos.y;
         // console.log(x, y);
-        occupied[x][y] = i;
+        if(occupied[x][y]){
+            horses[i].Mount(horses[occupied[x][y]])
+        } else {
+            occupied[x][y] = i;
+        }
     }
     console.log('---------------------------')
     console.log(map);
@@ -185,27 +193,21 @@ function processInput(lines){
 
 function solve(lines){
     processInput(lines);
-    let stepCount = 0;
+    let stepCount = -1;
     while(stepCount++ < MAX_COUNT){
-        console.log("stepCount: ", stepCount);
+        // console.log("stepCount: ", stepCount);
         // console.log(horses);
-        console.log(occupied);
-        const countss = [];
+        // console.log(occupied);
         for(let i =0; i < horses.length; i++){
             const count = horses[i].countHorses();
-            countss.push(count)
             if(count >= 4){
                 return stepCount;
             }
         }
-        console.log(countss);
         for(let i = 0; i < horses.length; i++){
             const currentHorse = horses[i];
             let x = currentHorse.pos.x;
             let y = currentHorse.pos.y;
-            // if(currentHorse.movable === false){
-            //     continue;
-            // }
             occupied[x][y] = undefined;
             currentHorse.nextMove();
             x = currentHorse.pos.x;
@@ -218,75 +220,19 @@ function solve(lines){
         }
     }
     return stepCount;
-    // const [N, K] = lines[0].split(" ").map((item) => +item); // N K
-    // for(let i = 1; i <= N; i++){
-    //     const mapData = lines[i].split(" ").map((item) => +item);
-    //     map.push(mapData);
-    //     horseMap.push( new Array(N).fill(null).map(() => new Array()));
-    // }
-    // for(let i = N+1; i < N+1+K; i++){
-    //     const [x, y, dir]= lines[i].split(" ").map((item) => +item);
-    //     horses.push(new Horse(x, y, dir));
-    // }
-    // for(let i = 0; i < K; i++){
-    //     const horse = horses[i];
-    //     console.log(horse.getX(), horse.getY());
-    //     horseMap[horse.getX()][horse.getY()].push(horse);
-    // }
-    // let stepCount = 0;
-    // while(stepCount++ < 1000){
-    //     for(let i = 0; i < N; i++){
-    //         for(let j = 0; j < N; j++){
-    //             if(map[i][j].length >=4 ){
-    //                 break;
-    //             }
-    //         }
-    //     }
-
-    //     for(let i = 0; i<horses.length; i++){
-    //         const horse = horses[i];
-    //         const dir = horse.getDir();
-    //         let nextX = horse.getX() + DIR[dir].x;
-    //         let nextY = horse.getY() + DIR[dir].y;
-    //         let firstMove = true;
-    //         // out of wall
-    //         if(nextX < 0 || nextY < 0 || nextX >= N || nextY >= N){
-    //             // move blue action
-    //             firstMove = false;
-    //             nextX = horse.getX() - DIR[dir].x;
-    //             nextY = horse.getY() - DIR[dir].y;
-    //         }
-    //         let nextTile = map[nextX][nextY];
-    //         if(firstMove && nextTile === COLOR.BLUE){
-    //             firstMove = false;
-    //             nextX = horse.getX() - DIR[dir].x;
-    //             nextY = horse.getY() - DIR[dir].y;
-    //         }
-    //         if(nextTile === COLOR.RED){
-
-    //         }
-    //         if(nextTile === COLOR.WHITE){
-
-    //         }
-    //         horse.move()
-    //     }
-    // }
-
-    // // console.log(horseMap[0][1].push(1));
-    // printMap(horseMap);
 }
 
 
-// const fs = require("fs");
-// const filePath = process.platform === "linux" ? "/dev/stdin" : "./17780.txt";
-// let inputs = fs.readFileSync(filePath).toString().split("\n");
-let inputs = [
-    '4 4',     '0 0 0 0',
-    '0 0 0 0', '0 0 0 0',
-    '0 0 0 0', '1 1 1',
-    '1 2 1',   '1 3 1',
-    '2 4 3'
-  ]
+const fs = require("fs");
+const filePath = process.platform === "linux" ? "/dev/stdin" : "./17780.txt";
+let inputs = fs.readFileSync(filePath).toString().split("\n");
+// let inputs = [
+//     '4 4',     '0 0 0 0',
+//     '0 0 0 0', '0 0 0 0',
+//     '0 0 0 0', '1 1 1',
+//     '1 2 1',   '1 3 1',
+//     '2 4 3'
+//   ]
 // let inputs = [
     // '4 4',     '0 0 2 0',
 //     '0 0 1 0', '0 0 1 2',
@@ -296,9 +242,4 @@ let inputs = [
 //   ]
 console.log(inputs);
 const result = solve(inputs);
-
-if(result>MAX_COUNT){
-    console.log(-1);
-} else {
-    console.log(result);
-}
+console.log(result)
