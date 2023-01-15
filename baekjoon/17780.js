@@ -19,15 +19,6 @@ class Pos {
         return false;
     }
 }
-/**
- * x,y
- */
-const DIR = {
-    1: {x: 0, y: 1},
-    2: {x: 0, y: -1},
-    3: {x: 1, y: 0},
-    4: {x: -1, y: 0},
-}
 
 class Dir {
     constructor(dir){
@@ -64,9 +55,6 @@ class OldHorse{
         this.nextHorse = undefined;
     }
     nextMove(firstMove = true){
-        if(this.movable === false){
-            return;
-        }
         let nextPosition = new Pos(this.pos.x + this.dir.x, this.pos.y + this.dir.y, this.pos.n)
         if(nextPosition.IsOutOfWall()){
             firstMove === true && this._moveNextBlue();
@@ -74,11 +62,9 @@ class OldHorse{
             const nextTile = map[nextPosition.x][nextPosition.y];
             if(nextTile === COLOR.BLUE){
                 firstMove === true && this._moveNextBlue();
-            }
-            if(nextTile === COLOR.RED){
+            } else if(nextTile === COLOR.RED){
                 this._moveNextRed(nextPosition);
-            }
-            if(nextTile === COLOR.WHITE){
+            } else if(nextTile === COLOR.WHITE){
                 this._moveNextWhite(nextPosition);
             }
         }
@@ -96,12 +82,7 @@ class OldHorse{
        this.nextMove(false);
     }
     _moveNextRed(nextPosition){
-        //TODO 순서만 바꾸면 nextWhite랑 묶을수있나
-        let previousHorse = this.reverseHorses();
-        while(previousHorse){
-            previousHorse.pos = nextPosition;
-            previousHorse = previousHorse.nextHorse;
-        }
+        this.reverseHorses(nextPosition);
     }
     _moveNextWhite(nextPos){
         let currentHorse = this;
@@ -110,12 +91,13 @@ class OldHorse{
             currentHorse = currentHorse.nextHorse;
         }
     }
-    reverseHorses(){
+    reverseHorses(nextPosition){
         // traverseHorse
         let previousHorse = undefined;
         let nextHorse = undefined;
         let currentHorse = this;
         while(currentHorse){
+            currentHorse.pos = nextPosition;
             currentHorse.movable = false;
             nextHorse = currentHorse.nextHorse;
             currentHorse.nextHorse = previousHorse;
@@ -126,6 +108,9 @@ class OldHorse{
         return previousHorse;
     }
     countHorses(){
+        if(this.movable === false){
+            return 1;
+        }
         let count = 1;
         let nextHorse = this.nextHorse;
         while(nextHorse){
@@ -135,33 +120,9 @@ class OldHorse{
         return count;
     }
 }
-class Horse{
-    constructor(x, y, dir){
-        this._x = x;
-        this._y = y;
-        this._dir = dir;
-    }
-    getX(){
-        return this._x - 1;
-    }
-    getY(){
-        return this._y - 1;
-    }
-    getDir(){
-        return this._dir;
-    }
-}
 const map = [];
 const occupied = [];
-// const horseMap = []; // x,y에 존재하는 horse list
 const horses = [];
-
-function printMap(map){
-    for(let i =0; i < map.length; i++){
-        console.log(map[i]);
-    } 
-}
-
 function processInput(lines){
     const [N, K] = lines[0].split(" ").map((item) => +item); // N K
     for(let i = 1; i <= N; i++){
@@ -175,37 +136,29 @@ function processInput(lines){
         horses.push(new OldHorse(i - N, new Pos(x-1, y-1, N), new Dir(dir)));
     }
     for(let i = 0; i < horses.length; i++){
-        //TODO: 처음부터 올라타면?
         const x = horses[i].pos.x;
         const y = horses[i].pos.y;
-        // console.log(x, y);
-        if(occupied[x][y]){
-            horses[i].Mount(horses[occupied[x][y]])
-        } else {
-            occupied[x][y] = i;
-        }
+        occupied[x][y] = i;
     }
-    console.log('---------------------------')
-    console.log(map);
-    console.log(occupied);
-    console.log('---------------------------')
 }
 
 function solve(lines){
     processInput(lines);
     let stepCount = -1;
+    
     while(stepCount++ < MAX_COUNT){
-        // console.log("stepCount: ", stepCount);
-        // console.log(horses);
-        // console.log(occupied);
-        for(let i =0; i < horses.length; i++){
+        for(let i = 0; i < horses.length; i++){
             const count = horses[i].countHorses();
             if(count >= 4){
                 return stepCount;
             }
         }
+        
         for(let i = 0; i < horses.length; i++){
             const currentHorse = horses[i];
+            if(currentHorse.movable === false){
+                continue;
+            }
             let x = currentHorse.pos.x;
             let y = currentHorse.pos.y;
             occupied[x][y] = undefined;
@@ -213,7 +166,11 @@ function solve(lines){
             x = currentHorse.pos.x;
             y = currentHorse.pos.y;
             if(occupied[x][y]){
-                currentHorse.Mount(horses[occupied[x][y]]);
+                const count = currentHorse.Mount(horses[occupied[x][y]]);
+                console.log(count)
+                // if(count >= 4){
+                //     return stepCount;
+                // }
             } else{
                 occupied[x][y] = i;
             }
@@ -226,20 +183,21 @@ function solve(lines){
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./17780.txt";
 let inputs = fs.readFileSync(filePath).toString().split("\n");
-// let inputs = [
-//     '4 4',     '0 0 0 0',
-//     '0 0 0 0', '0 0 0 0',
-//     '0 0 0 0', '1 1 1',
-//     '1 2 1',   '1 3 1',
-//     '2 4 3'
-//   ]
-// let inputs = [
-    // '4 4',     '0 0 2 0',
-//     '0 0 1 0', '0 0 1 2',
-//     '0 2 0 0', '2 1 1',
-//     '3 2 3',   '2 2 1',
-//     '4 1 2'
+// const inputs = [
+//     '6 10',        '0 1 2 0 1 1',
+//     '1 2 0 1 1 0', '2 1 0 1 1 0',
+//     '1 0 1 1 0 2', '2 0 1 2 0 1',
+//     '0 2 1 0 2 1', '1 1 1',
+//     '2 2 2',       '3 3 4',
+//     '4 4 1',       '5 5 3',
+//     '6 6 2',       '1 6 3',
+//     '6 1 2',       '2 4 3',
+//     '4 2 1'
 //   ]
 console.log(inputs);
 const result = solve(inputs);
-console.log(result)
+if(result > MAX_COUNT){
+    console.log(-1);
+} else {
+    console.log(result)
+}
