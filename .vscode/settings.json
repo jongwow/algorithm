@@ -1,6 +1,5 @@
 {
     "code-runner.executorMap": {
-    
         "javascript": "node",
         "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
         "c": "cd $dir && gcc -g $fileName -o a.out && $dir/a.out",
@@ -62,7 +61,29 @@
         "string_view": "cpp",
         "vector": "cpp",
         "type_traits": "cpp",
-        "version": "cpp"
+        "version": "cpp",
+        "iosfwd": "cpp",
+        "__bit_reference": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "unordered_map": "cpp",
+        "__config": "cpp",
+        "atomic": "cpp",
+        "cmath": "cpp",
+        "exception": "cpp",
+        "iterator": "cpp",
+        "ios": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "locale": "cpp",
+        "mutex": "cpp",
+        "ostream": "cpp",
+        "streambuf": "cpp",
+        "system_error": "cpp",
+        "__hash_table": "cpp",
+        "array": "cpp",
+        "initializer_list": "cpp"
     },
-    "code-runner.runInTerminal": true
+    "code-runner.runInTerminal": true,
+    "C_Cpp.clang_format_style": "Google",
 }
