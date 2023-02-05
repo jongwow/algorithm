@@ -108,14 +108,14 @@ class Solution:
         for mine in mines:
             y, x = mine
             matrix[y][x] = 0
-        dp = [[0 for j in range(n)] for i in range(n)]
+        dp = [[(0,0) for j in range(n)] for i in range(n)]
         resultValue = 0
     
         for y in range(n):
             for x in range(n):
                 if matrix[y][x] == 1:
-                    left = self.getValue(n, dp,matrix, y, x-1)
-                    up = self.getValue(n, dp, matrix,y-1, x)
+                    left = self.getValue(n, dp,matrix, y, x-1, 0)
+                    up = self.getValue(n, dp, matrix,y-1, x, 1)
                     dLen = 0
                     for d in range(y+1, n):
                         if x == 6 and y == 6:
@@ -137,23 +137,29 @@ class Solution:
                     theVal = min(left, up, dLen, rLen) + 1 
                     if resultValue <= theVal:
                         resultValue = theVal
-                    dp[y][x] = min(left, up) + 1
+                    dp[y][x] = (left + 1, up + 1)
                 else:
-                    dp[y][x] = 0
+                    dp[y][x] = (0, 0)
         printMatrix(matrix)
         print()
-        printMatrix(dp)
+        # printMatrix(dp)
+
+        for y in range(n):
+            for x in range(n):
+                (left, up) = dp[y][x]
+                print(min(left,up), end= ' ')
+            print()
         # result = 0
         # for y in range(n):
         #     for x in range(n):
         #         if result <= dp[y][x]:
         #             result = dp[y][x]
         return resultValue
-    def getValue(self, n, dp, mat, y, x):
+    def getValue(self, n, dp, mat, y, x, dpIndex):
         if 0 <= y and y < n and 0<= x and x < n:
             if mat[y][x] == 1:
-                if dp[y][x] != 0:
-                    return dp[y][x]
+                if dp[y][x][dpIndex] != 0:
+                    return dp[y][x][dpIndex]
                 else:
                     return 0
             else:
@@ -161,9 +167,8 @@ class Solution:
         return 0
 
 # output = Solution().orderOfLargestPlusSign(5, [[4, 4]])
-# output = Solution().orderOfLargestPlusSign(5, [[4, 2]])
-output = Solution().orderOfLargestPlusSign(10, [[0,0],[0,1],[0,2],[0,7],[1,2],[1,3],[1,9],[2,3],[2,5],[2,7],[2,8],[3,2],[3,5],[3,7],[4,2],[4,3],[4,5],[4,7],[5,1],[5,4],[5,8],[5,9],[7,2],[7,5],[7,7],[7,8],[8,5],[8,8],[9,0],[9,1],[9,2],[9,8]]
-)
+output = Solution().orderOfLargestPlusSign(5, [[4, 2]])
+# output = Solution().orderOfLargestPlusSign(10, [[0,0],[0,1],[0,2],[0,7],[1,2],[1,3],[1,9],[2,3],[2,5],[2,7],[2,8],[3,2],[3,5],[3,7],[4,2],[4,3],[4,5],[4,7],[5,1],[5,4],[5,8],[5,9],[7,2],[7,5],[7,7],[7,8],[8,5],[8,8],[9,0],[9,1],[9,2],[9,8]])
 
 # output = Solution().orderOfLargestPlusSign(5, [
 #     [0, 0],[0,1],[0,3],[0,4],
