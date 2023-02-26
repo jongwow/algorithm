@@ -28,7 +28,7 @@ def quickSort(arr):
 class Solution:
     def maximumElementAfterDecrementingAndRearranging(self, arr: List[int]) -> int:
         # 오름차순 정렬
-        quickSort(arr)
+        quickSort(arr)  # sorting 은 한번 직접 구현해봤음.
         arr[0] = 1
         # 순회하면서
         for i in range(1, len(arr)):
