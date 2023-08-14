@@ -6,7 +6,7 @@
         "cpp": "cd $dir && g++ -std=c++17 -g $fileName -o a.out  && $dir/a.out",
         "objective-c": "cd $dir && gcc -framework Cocoa $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "php": "php",
-        "python": "python -u",
+        "python": "python3 -u",
         "perl": "perl",
         "perl6": "perl6",
         "ruby": "ruby",
@@ -86,4 +86,8 @@
     },
     "code-runner.runInTerminal": true,
     "C_Cpp.clang_format_style": "Google",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "python.formatting.provider": "none",
 }
