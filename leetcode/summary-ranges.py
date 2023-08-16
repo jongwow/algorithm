@@ -86,6 +86,21 @@ class Solution:
         else:
             result.append("{}->{}".format(start, end))
         return result
+    # 재미삼아 구현
+
+    def restore(self, summary: List[str]) -> List[int]:
+        result = []
+        for s in summary:
+            if "->" in s:
+                [start, end] = s.split("->")
+                start_num = int(start)
+                end_num = int(end)
+                for i in range(start_num, end_num+1):
+                    result.append(i)
+            else:
+                result.append(int(s))
+
+        return result
 
 
 tcs = [
@@ -96,6 +111,6 @@ tcs = [
 
 for tc in tcs:
     sol = Solution().summaryRanges(tc)
-    sol2 = Solution().summaryRangesV1Refactor(tc)
     print(sol)
-    print(sol2)
+    re = Solution().restore(sol)
+    print(re)
