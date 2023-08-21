@@ -40,7 +40,38 @@ class Trie:
             return False
 
 
-trie = Trie()
+class Trie2:
+    def __init__(self) -> None:
+        self.chs = {}
+        self.exist = False
+        pass
+
+    def insert(self, word: str) -> None:
+        current = self
+        for ch in word:
+            if not ch in current.chs:
+                current.chs[ch] = Trie2()
+            current = current.chs[ch]
+        current.exist = True
+
+    def search(self, word: str) -> bool:
+        current = self
+        for ch in word:
+            if not ch in current.chs:
+                return False
+            current = current.chs[ch]
+        return current.exist
+
+    def startsWith(self, prefix: str) -> bool:
+        current = self
+        for ch in prefix:
+            if not ch in current.chs:
+                return False
+            current = current.chs[ch]
+        return True
+
+
+trie = Trie2()
 trie.insert("apple")
 print(trie.search("apple"))   # return True
 print(trie.search("app"))     # return False
