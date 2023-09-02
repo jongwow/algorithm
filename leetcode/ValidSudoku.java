@@ -3,9 +3,9 @@ import java.util.HashMap;
 class Solution {
     public boolean isValidSudoku(char[][] board) {
         // 1. check col
-        for (int row = 0; row < board.length; row++) {
+        for (char[] chars : board) {
             HashMap<Character, Boolean> map = new HashMap<>();
-            for (char ch : board[row]) {
+            for (char ch : chars) {
                 if (ch != '.' && map.containsKey(ch)) {
                     return false;
                 }
@@ -15,8 +15,8 @@ class Solution {
         // 2. check row
         for (int col = 0; col < board[0].length; col++) {
             HashMap<Character, Boolean> map = new HashMap<>();
-            for (int row = 0; row < board.length; row++) {
-                char ch = board[row][col];
+            for (char[] chars : board) {
+                char ch = chars[col];
                 if (ch != '.' && map.containsKey(ch)) {
                     return false;
                 }
@@ -37,9 +37,6 @@ class Solution {
                     }
                 }
             }
-            // (0, 0), (0, 3), (0, 6)
-            // (3, 0), (3, 3), (3, 6)
-            // (6, 0), (6, 3), (6, 6)
         }
         return true;
     }
