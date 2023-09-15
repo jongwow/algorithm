@@ -81,8 +81,8 @@ public class BinaryTreeRightSideView {
             if (outResult.size() == level) {
                 outResult.add(node.val);
             }
-            nextLevel(node.left, outResult, level + 1);
             nextLevel(node.right, outResult, level + 1);
+            nextLevel(node.left, outResult, level + 1);
         }
 
     }
