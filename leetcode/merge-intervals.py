@@ -33,6 +33,31 @@ class Solution:
                 continue
         result.append([prev_start, prev_end])
         return result
+
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals = sorted(intervals, key=lambda st: st[0])
+        left = 0
+        START, END = 0, 1
+        result = []
+        prev_start = -1
+        prev_end = -1
+        while left < len(intervals):
+            if prev_end != -1:
+                if intervals[left][START] <= prev_end:
+                    prev_end = max(intervals[left][END], prev_end)
+                    left += 1
+                    continue
+                else:
+                    result.append([prev_start, prev_end])
+                    prev_start, prev_end = intervals[left][START], intervals[left][END]
+                    left += 1
+                    continue
+            else:
+                prev_start, prev_end = intervals[left][START], intervals[left][END]
+                left += 1
+                continue
+        result.append([prev_start, prev_end])
+        return result
         # intervals 의 시작 시간 기준으로 정렬.
         # left를 앞에서부터 순회 ~ 끝-1 이전까지
 
