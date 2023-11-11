@@ -10,7 +10,7 @@ def quickSort(arr: List[int], left: int, right: int):
     # print(left, right)
     if left >= right:
         return
-    pivot = partition(arr, left, right)
+    pivot = partition2(arr, left, right)
     # print('-: ', pivot)
     quickSort(arr, left, pivot-1)
     quickSort(arr, pivot, right)
@@ -33,10 +33,22 @@ def partition(arr: List[int], start: int, end: int) -> int:
     return left
 
 
+def partition2(arr: List[int], start: int, end: int) -> int:
+    pivot_value = arr[end]
+    i = start-1
+    for j in range(start, end):
+        if arr[j] <= pivot_value:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i+1], arr[end] = arr[end], arr[i+1]
+    return i + 1
+
+
 tcs = [
     [1, 7, 4, 8, 2, 6, 5], [1, 5, 3, 2], [1, 7, 4, 8, 10, 5]
     # [1, 7, 4, 8, 2, 6, 5], [5, 2, 3, 1], [3, 7, 4, 8, 10, 1]
 ]
+
 
 for tc in tcs:
     # partition(tc, 0, len(tc)-1)
