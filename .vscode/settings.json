@@ -53,6 +53,7 @@
         "sml": "cd $dir && sml $fileName"
     },
     "files.associations": {
+        "*.mdx": "markdown",
         "iostream": "cpp",
         "__split_buffer": "cpp",
         "deque": "cpp",
@@ -82,7 +83,13 @@
         "system_error": "cpp",
         "__hash_table": "cpp",
         "array": "cpp",
-        "initializer_list": "cpp"
+        "initializer_list": "cpp",
+        "__mutex_base": "cpp",
+        "__node_handle": "cpp",
+        "optional": "cpp",
+        "sstream": "cpp",
+        "tuple": "cpp",
+        "variant": "cpp"
     },
     "code-runner.runInTerminal": true,
     "C_Cpp.clang_format_style": "Google",
@@ -90,4 +97,9 @@
         "editor.defaultFormatter": "ms-python.autopep8"
     },
     "editor.formatOnSave": true,
+    "cSpell.words": [
+        "inorder",
+        "postorder",
+        "preorder"
+    ],
 }
