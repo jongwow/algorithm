@@ -68,10 +68,15 @@ class Solution:
         if head == None:
             return None
         cnt = 0
-        p = head
-        while p != None:
+        tortoise = head
+        hare = head
+        while tortoise != None and hare != None:
             cnt += 1
-            p = p.next
+            tortoise = tortoise.next
+            hare = hare.next
+            if hare != None:
+                hare = hare.next
+                break
         result = self.halfSort(head, cnt)
         return result
 
@@ -141,6 +146,33 @@ class Solution:
             result_node = result_node.next
         return result_node_head
 
+    def sortListV4(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if head == None:
+            return None
+        new_head = ListNode(head.val)
+        # head = head.next
+        middle_node = new_head
+        cnt = 1
+        while head != None:
+            current_value = head.val
+            if middle_node.val < current_value:
+                inner_prev = middle_node
+            else:
+                inner_prev = new_head
+            inner_cnt = 1
+            while inner_prev.next != None and inner_prev.next.val < current_value:
+                if cnt // 2 == inner_cnt:
+                    middle_node = inner_prev
+                inner_prev = inner_prev.next
+                inner_cnt += 1
+            new_node = ListNode(current_value)
+            next_node = inner_prev.next
+            inner_prev.next = new_node
+            new_node.next = next_node
+            head = head.next
+            cnt += 1
+        return new_head.next
+
 
 sol = Solution()
 # a = ListNode(3)
@@ -152,8 +184,8 @@ a = ListNode(4)
 b = ListNode(2)
 c = ListNode(1)
 d = ListNode(3)
-e = None
-# e = ListNode(5)
+# e = None
+e = ListNode(5)
 a.next = b
 b.next = c
 c.next = d
